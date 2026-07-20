@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  macOS watcher for flare-agent. Copy to ~/Library/LaunchAgents/ and edit the
+  two paths, then:  launchctl load ~/Library/LaunchAgents/local.flare-watcher.plist
+
+  WatchPaths means launchd itself watches for the file. No polling, no resident
+  process, zero cost while idle. The handler exits when the flare is resolved.
+
+  Secrets: EnvironmentVariables below is one way to hand the handler its
+  tokens. launchd plists are readable by your user only by default, but see
+  the README's security section for options that avoid plaintext entirely
+  (BOT_TOKEN_CMD with the macOS keychain is the nicest one here).
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>local.flare-watcher</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>/Users/you/flare-agent/flare_agent.py</string>
+    </array>
+    <key>WatchPaths</key>
+    <array>
+        <string>/Users/you/flare-workspace/FLARE.md</string>
+    </array>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>FLARE_BOT_TOKEN</key>
+        <string>REPLACE_OR_USE_BOT_TOKEN_CMD</string>
+        <key>FLARE_AGENT_TOKEN</key>
+        <string>REPLACE_OR_USE_AGENT_TOKEN_CMD</string>
+    </dict>
+    <key>StandardOutPath</key>
+    <string>/tmp/flare-agent.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/flare-agent.log</string>
+</dict>
+</plist>

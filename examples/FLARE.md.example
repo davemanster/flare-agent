@@ -1,0 +1,12 @@
+# FLARE: Can't VPN in, DDNS looks stale
+
+VPN from my phone and my laptop both time out on handshake, started
+around 02:15 local. The DDNS hostname resolves to an IP I don't
+recognize, so the WAN address probably changed and the update didn't
+take. Nothing inside has alerted, so the lab itself is presumably fine.
+
+No config changes in the last week. Last thing that touched the router
+was a package update six days ago, fine since.
+
+Do not change firewall or VPN config. Confirm the current WAN address,
+find out why the DDNS update failed, and report. Diagnose only.

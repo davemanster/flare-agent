@@ -1,0 +1,18 @@
+# systemd path unit: fires flare-watcher.service when FLARE.md appears.
+# Install (user units):
+#   cp flare-watcher.path flare-watcher.service ~/.config/systemd/user/
+#   systemctl --user daemon-reload
+#   systemctl --user enable --now flare-watcher.path
+#
+# PathExists fires when the file is present. The handler archives FLARE.md
+# away when the incident closes, which re-arms the unit for the next one.
+
+[Unit]
+Description=Watch for a flare file
+
+[Path]
+PathExists=/home/you/flare-workspace/FLARE.md
+Unit=flare-watcher.service
+
+[Install]
+WantedBy=default.target

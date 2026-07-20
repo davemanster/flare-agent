@@ -1,0 +1,20 @@
+# systemd service unit: runs the flare handler once per trigger.
+# Pairs with flare-watcher.path. Edit the paths, then see the .path file
+# for install steps.
+#
+# Secrets: EnvironmentFile keeps tokens out of the unit file itself.
+# Create /home/you/.config/flare-agent.env (chmod 600) containing:
+#   FLARE_BOT_TOKEN=...
+#   FLARE_AGENT_TOKEN=...
+# Or leave both unset and use BOT_TOKEN_CMD / AGENT_TOKEN_CMD in the config
+# block to pull from a secrets manager instead.
+
+[Unit]
+Description=flare-agent handler
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /home/you/flare-agent/flare_agent.py
+EnvironmentFile=-/home/you/.config/flare-agent.env
+StandardOutput=append:/tmp/flare-agent.log
+StandardError=append:/tmp/flare-agent.log
