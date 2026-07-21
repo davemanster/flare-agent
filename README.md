@@ -1,12 +1,12 @@
 # flare-agent
 
-A break-glass responder for infrastructure you can't reach. Something in your lab writes a file describing what's wrong. A watcher sees the file and wakes a strong AI agent with credentials and a briefing. The agent investigates, texts you what it found in a few short lines, and waits for your go before it fixes anything. One Python file, standard library only, plus a launchd or systemd unit.
+Your VPN endpoint is dead, your DDNS record is stale, and you're on the other side of the planet on hotel wifi. Everything that could tell you what's wrong is on the far side of the thing that broke. This is how you still get eyes inside: something in the lab writes a flare file, a watcher wakes a strong AI agent with credentials and a briefing, and the agent investigates and talks to you over chat, which only needs the lab to have outbound internet. You get findings in a few short lines sized for a phone, and nothing gets fixed until you say go. One Python file, standard library only, plus a launchd or systemd unit.
 
 ## The problem
 
 Monitoring tells you something broke. It doesn't tell you what broke, and it doesn't do anything about it.
 
-That gap is fine when you're home. You get the alert, you SSH in, you look, you fix. It stops being fine when you're twelve time zones away on hotel wifi, and it gets really bad when the thing that broke is your way in.
+That gap is fine when you're home. You get the alert, you SSH in, you look, you fix. It stops being fine when you're twelve time zones away, and it gets really bad when the thing that broke is your way in.
 
 Being locked out and the lab being down are two different problems, and the first one is way more common. Your way in is the fragile half: a VPN endpoint, a stale DDNS record, a port forward, a WAN IP that changed while you were on a plane. Any of those breaks and every tool you'd normally use is on the wrong side of the problem, while the lab itself sits there healthy, still making outbound connections just fine.
 
@@ -19,6 +19,8 @@ To be clear about the boundary: this handles "I can't get in", not "the lab can'
 I run a fairly involved homelab: router, virtualization cluster, several NAS boxes, a media pipeline, a pile of always-on services. My living depends on some of it, and I spend long stretches abroad. Things would fall over at 3am my time and sit broken for a day because a monitoring alert saying "service down" is useless when you can't get a decent look inside.
 
 I already had a small local LLM running on a machine inside the network, hooked to my chat. At some point it clicked that this thing doesn't need to be smart enough to fix anything, it just needs to be smart enough to take my call. I text it "SOS the media server is down", it writes a file, and the file wakes a much stronger cloud agent that has the credentials and actually does the work. By the time my phone buzzes with findings, something competent has already been inside looking around.
+
+The name is literal. A flare is what you fire when you're in trouble and you need whoever's out there to come find you.
 
 This repo is that system with my lab pulled out of it. It's not a rewrite, this is the code that actually runs, sanitized and made configurable. Every hardening decision in it was paid for by a real failure, and the notes section below documents each one. Honestly, those notes are the main reason to use this instead of writing your own in an afternoon.
 
